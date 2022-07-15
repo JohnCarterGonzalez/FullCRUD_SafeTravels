@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.johncarter.safeTravels.models.Travel;
+import com.johncarter.safeTravels.models.TravelExpense;
 import com.johncarter.safeTravels.repositories.TravelRepository;
 
 @Service
@@ -17,25 +17,25 @@ public class TravelService {
 	}
 	
 	// returns all the travels
-    public List<Travel> allTravels() {
+    public List<TravelExpense> allTravels() {
         return travelRepo.findAll();
     }
     // creates a travel
-    public Travel create(Travel t) {
+    public TravelExpense create(TravelExpense t) {
         return travelRepo.save(t);
     }
     
     // updates a travel
-    public Travel update(Travel t) {
+    public TravelExpense update(TravelExpense t) {
     	return travelRepo.save(t);
     }
     
     
     // retrieves a travel
-    public Travel findTravel(Long id) {
-        Optional<Travel> optionalTravel = travelRepo.findById(id);
-        if(optionalTravel.isPresent()) {
-            return optionalTravel.get();
+    public TravelExpense findTravel(Long id) {
+        Optional<TravelExpense> oT = travelRepo.findById(id);
+        if(oT.isPresent()) {
+            return oT.get();
         } else {
             return null;
         }

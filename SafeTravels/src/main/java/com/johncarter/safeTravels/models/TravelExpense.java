@@ -18,21 +18,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="travels")
-public class Travel {
+public class TravelExpense {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@NotBlank(message="Name required")
+	@NotBlank(message="Please enter a name for tracking travel expenses.")
 	private String name;
 	
-	@NotBlank(message="Vendor required")
-	private String description;
+	@NotBlank(message="Please enter a description, it helps to better track expenses.")
+	private String desc;
 	
-	@NotBlank(message="Vendor required")
+	@NotBlank(message="A vendor is required for tracking travel expenses.")
 	private String vendor;
 	
-	@NotNull(message="Amount required")
+	@NotNull(message="If you dont enter an amount, what then are we tracking?")
     @Min(value=0, message="Please enter a valid amount.")
     private Float amount;
     
@@ -43,12 +43,12 @@ public class Travel {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
     
-    public Travel() {
+    public TravelExpense() {
     }
     
-    public Travel(String name, String desc, String vendor, float amount, Date createdAt, Date updatedAt) {
+    public TravelExpense(String name, String desc, String vendor, float amount, Date createdAt, Date updatedAt) {
     	this.name = name;
-    	this.description = desc;
+    	this.desc = desc;
     	this.vendor = vendor;
     	this.amount = amount;
     	this.createdAt = createdAt;
@@ -72,7 +72,7 @@ public class Travel {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -81,12 +81,12 @@ public class Travel {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	public String getVendor() {

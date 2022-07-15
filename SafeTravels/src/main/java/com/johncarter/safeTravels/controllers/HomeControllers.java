@@ -1,6 +1,7 @@
 package com.johncarter.safeTravels.controllers;
+import com.johncarter.safeTravels.models.TravelExpense;
+import com.johncarter.safeTravels.services.TravelService;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import com.johncarter.safeTravels.models.Travel;
-import com.johncarter.safeTravels.services.TravelService;
-
 @Controller
 public class HomeControllers {
 	
 	@Autowired
-	private TravelService travels;
+	private TravelService t;
 	
 	@GetMapping("/")
 	public String index() {
@@ -27,51 +25,42 @@ public class HomeControllers {
 	}
 	
 	@GetMapping("/travels")
-	public String travels(@ModelAttribute("travel") Travel travel, Model m) {
-		
-	
-		m.addAttribute("travel", travels.allTravels());
-		
+	public String travels(@ModelAttribute("travel") TravelExpense trav, Model m) {
+		m.addAttribute("travel", t.allTravels());
 		return "index.jsp";
 	}
 	
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable("id") Long id, Model m) {
-		m.addAttribute("travel", travels.findTravel(id));
-		m.addAttribute("travel", travels.allTravels());
-		
+		m.addAttribute("travel", t.findTravel(id));
+		m.addAttribute("travel", t.allTravels());
 		return "edit.jsp";
 	}
 	
 	@GetMapping("/travels/{id}")
 	public String show(@PathVariable("id") Long id, Model m) {
-		m.addAttribute("travel", travels.allTravels());
-		
-		//System.out.println("Platform Solution");
+		m.addAttribute("travel", t.allTravels());
 		return "show.jsp";
 	}
 	
 	@PostMapping("/travels")
-	public String create(@Valid @ModelAttribute("travel") Travel travel , BindingResult result, Model model) {
-		
+	public String create(@Valid @ModelAttribute("travel") TravelExpense trav, BindingResult result, Model m) {
 		if (result.hasErrors()) {
-			model.addAttribute("expenses", travels.allTravels());
+			m.addAttribute("expenses", t.allTravels());
 			return "index.jsp";
 		}
-		// System.out.println("TEST");
-		travels.create(travel);
-		
+		t.create(trav);
 		return "redirect:/travels";
 	}
 	
 	@PutMapping("/travels/{id}")
-	public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("travel") Travel travel, BindingResult result, Model m) {
+	public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("travel") TravelExpense trav, BindingResult result, Model m) {
 		if (result.hasErrors()) {
-			m.addAttribute("travels", travels.allTravels());
+			m.addAttribute("travels", t.allTravels());
 			return "edit.jsp";
 		}
 		
-		travels.update(travel);
+		t.update(trav);
 		
 		return "redirect:/travels";
 	}	
@@ -79,7 +68,7 @@ public class HomeControllers {
 	@DeleteMapping("/travels/{id}")
 	public String delete(@PathVariable("id") Long id) {
 		
-		travels.delete(id);
+		t.delete(id);
 		
 		return "redirect:/travels";
 	}
